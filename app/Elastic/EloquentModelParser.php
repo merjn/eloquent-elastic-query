@@ -23,13 +23,11 @@ class EloquentModelParser
 
         $attributes = $model->getAttributes();
 
-        // Remove all attributes that are defined in the exclusion field. This ensures that only the attributes
-        // are parsed.
         if (isset($model->elasticExcludes)) {
             Arr::forget($attributes, $model->elasticExcludes);
         }
 
-        $attributes = collect($attributes)->map(function (mixed $attributeValue, string $attributeName) {
+        $attributes = collect($attributes)->transform(function (mixed $attributeValue, string $attributeName) {
             return new Attribute($attributeName, $attributeValue);
         });
 

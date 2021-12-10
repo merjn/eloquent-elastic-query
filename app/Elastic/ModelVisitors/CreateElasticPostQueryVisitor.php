@@ -16,7 +16,7 @@ class CreateElasticPostQueryVisitor implements EloquentModelVisitorInterface, Wi
 
     public function visitModelRoot(ModelRoot $modelRoot)
     {
-        $this->query['index'] = $modelRoot->getModel();
+        $this->query['index'] = $modelRoot->getNodes();
 
         /** @var Visitable $node */
         foreach ($modelRoot->getNodes() as $node) {
