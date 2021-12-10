@@ -32,6 +32,6 @@ class ModelRoot implements Visitable
 
     public function accept(EloquentModelVisitorInterface $visitor)
     {
-        // TODO: Implement accept() method.
+        $visitor->visitModelRoot($this);
     }
 }

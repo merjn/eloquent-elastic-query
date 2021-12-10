@@ -26,17 +26,13 @@ class EloquentModelSerializerService
 
     public function serialize(string $serializationOption, Model $model): array
     {
-        $tokens = $this->eloquentModelParser->parse($model);
+        $token = $this->eloquentModelParser->parse($model);
         $visitor = $this->eloquentModelVisitorFactory->createVisitor($serializationOption);
         if (!$visitor instanceof WithQuery) {
             throw new RuntimeException("Visitor does not implement the WithQuery interface");
         }
 
-        /** @var Visitable $token */
-        foreach ($tokens as $token) {
-            // Visit each token with the visitor so that we can grab the query result.
-            $token->accept($visitor);
-        }
+        $token->accept($visitor);
 
         return $visitor->getQuery();
     }

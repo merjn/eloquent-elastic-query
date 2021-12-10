@@ -11,28 +11,21 @@ use Illuminate\Support\Arr;
 
 class EloquentModelParser
 {
-    /**
-     * Parse the model.
-     *
-     * @param Model $model
-     * @return ModelRoot
-     */
     public function parse(Model $model): ModelRoot
     {
-        $modelRoot = new ModelRoot($model->getTable());
-
         $attributes = $model->getAttributes();
 
         if (isset($model->elasticExcludes)) {
             Arr::forget($attributes, $model->elasticExcludes);
         }
 
-        $attributes = collect($attributes)->transform(function (mixed $attributeValue, string $attributeName) {
-            return new Attribute($attributeName, $attributeValue);
-        });
+        $attributes = collect($attributes)
+            ->transform(function (mixed $attributeValue, string $attributeName) {
+                return new Attribute($attributeName, $attributeValue);
+            })
+            ->values()
+            ->toArray();
 
-        $attributes = array_values($attributes->toArray());
-
-        return tap($modelRoot, fn (ModelRoot $modelRoot) => $modelRoot->setNodes($attributes));
+        return tap(new ModelRoot($model->getTable()), fn (ModelRoot $modelRoot) => $modelRoot->setNodes($attributes));
     }
 }

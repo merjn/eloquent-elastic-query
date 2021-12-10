@@ -14,7 +14,7 @@ class Elastic
         private EloquentModelSerializerService $eloquentModelParser
     ) { }
 
-    public function create(): array
+    public function toCreateQuery(): array
     {
         return $this->eloquentModelParser->serialize(ElasticQueryOption::CREATE, $this->model);
     }
