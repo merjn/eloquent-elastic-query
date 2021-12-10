@@ -14,11 +14,6 @@ class CreateElasticPostQueryVisitor implements EloquentModelVisitorInterface, Wi
 {
     private array $query = [];
 
-    public function getQuery(): array
-    {
-        return $this->query;
-    }
-
     public function visitModelRoot(ModelRoot $modelRoot)
     {
         $this->query['index'] = $modelRoot->getModel();
@@ -32,5 +27,10 @@ class CreateElasticPostQueryVisitor implements EloquentModelVisitorInterface, Wi
     public function visitAttribute(Attribute $attribute)
     {
 
+    }
+
+    public function getQuery(): array
+    {
+        return $this->query;
     }
 }

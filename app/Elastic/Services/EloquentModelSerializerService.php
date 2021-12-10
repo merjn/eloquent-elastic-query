@@ -28,7 +28,6 @@ class EloquentModelSerializerService
     {
         $tokens = $this->eloquentModelParser->parse($model);
         $visitor = $this->eloquentModelVisitorFactory->createVisitor($serializationOption);
-
         if (!$visitor instanceof WithQuery) {
             throw new RuntimeException("Visitor does not implement the WithQuery interface");
         }
