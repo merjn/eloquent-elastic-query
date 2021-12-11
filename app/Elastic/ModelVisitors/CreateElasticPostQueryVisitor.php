@@ -17,6 +17,7 @@ class CreateElasticPostQueryVisitor implements EloquentModelVisitorInterface, Wi
     public function visitModelRoot(ModelRoot $modelRoot)
     {
         $this->query['index'] = $modelRoot->getTable();
+        $this->query['id'] = $modelRoot->getPrimaryKey();
 
         /** @var Visitable $node */
         foreach ($modelRoot->getNodes() as $node) {
@@ -30,9 +31,7 @@ class CreateElasticPostQueryVisitor implements EloquentModelVisitorInterface, Wi
             $this->query['body'] = [];
         }
 
-        $this->query['body'][] = [
-            $attribute->field => $attribute->value,
-        ];
+        $this->query['body'][$attribute->field] = $attribute->value;
     }
 
     public function getQuery(): array

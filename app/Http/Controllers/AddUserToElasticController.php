@@ -21,14 +21,11 @@ final class AddUserToElasticController extends Controller
      */
     public function __invoke(Request $request): JsonResource
     {
-        /** @var array $user */
-        $user = User::first()
-            ->elastic()
-            ->toCreateQuery();
+        /** @var User $user */
+        $user = User::factory()->create();
 
-        $elasticResponse = $this->elasticClient->create($user);
+        $elasticResponse = $this->elasticClient->create($user->toElasticCreateQuery());
 
-        // Store mapped data to Elastic
         return new JsonResource($elasticResponse);
     }
 }

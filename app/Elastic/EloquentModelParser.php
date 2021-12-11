@@ -26,6 +26,6 @@ class EloquentModelParser
             ->values()
             ->toArray();
 
-        return tap(new ModelRoot($model->getTable()), fn (ModelRoot $modelRoot) => $modelRoot->setNodes($attributes));
+        return tap(new ModelRoot($model->id, $model->getTable()), fn (ModelRoot $modelRoot) => $modelRoot->setNodes($attributes));
     }
 }

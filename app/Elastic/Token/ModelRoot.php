@@ -12,8 +12,14 @@ class ModelRoot implements Visitable
     private array $nodes;
 
     public function __construct(
+        private string $primaryKey,
         private string $table,
     ) { }
+
+    public function getPrimaryKey(): mixed
+    {
+        return $this->primaryKey;
+    }
 
     public function getTable(): string
     {

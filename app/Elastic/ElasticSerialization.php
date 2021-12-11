@@ -7,13 +7,15 @@ namespace App\Elastic;
 trait ElasticSerialization
 {
     /**
-     * Get the Elastic facade.
+     * Create an Elastic create query.
      *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @return array
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function elastic(): Elastic
+    public function toElasticCreateQuery(): array
     {
-        return app()->make(Elastic::class, ['model' => $this]);
+        $instance = app()->make(Elastic::class, ['model' => $this]);
+
+        return $instance->serialize(ElasticQueryOption::CREATE);
     }
 }
