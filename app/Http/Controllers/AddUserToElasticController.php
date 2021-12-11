@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Elasticsearch\Client as ElasticClient;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 final class AddUserToElasticController extends Controller
 {
+    public function __construct(
+        private ElasticClient $elasticClient
+    ) { }
+
     /**
      * Handle the incoming request.
      *
@@ -21,8 +26,9 @@ final class AddUserToElasticController extends Controller
             ->elastic()
             ->toCreateQuery();
 
-        // Store mapped data to Elastic
+        $elasticResponse = $this->elasticClient->create($user);
 
-        return new JsonResource($user);
+        // Store mapped data to Elastic
+        return new JsonResource($elasticResponse);
     }
 }
